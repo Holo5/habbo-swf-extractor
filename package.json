@@ -31,13 +31,15 @@
   "author": "Nico Rickenbach",
   "main": "src/index.js",
   "bin": {
-    "habbo-swf-extractor": "src/index.js",
-    "swf-extract": "src/index.js",
-    "hse": "src/index.js"
+    "habbo-swf-extractor": "dist/index.js",
+    "swf-extract": "dist/index.js",
+    "hse": "dist/index.js"
   },
   "scripts": {
-    "start": "node src/index.js --in ./in/ --out ./out/",
-    "lint": "eslint --ext .js,.ts ./src --color --fix"
+    "start:dev": "yarn ts-node-dev --respawn src/index.ts",
+    "start:prod": "node dist/index.js --in ./in/ --out ./out/",
+    "lint": "eslint --ext .js,.ts ./src --color --fix",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -51,6 +53,7 @@
     "zlib": "^1.0.5"
   },
   "devDependencies": {
+    "@types/minimist": "^1.2.2",
     "@types/node": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
