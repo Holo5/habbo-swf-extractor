@@ -14,6 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "baseUrl": "src",
     "lib": ["es2015","DOM"],
     "module": "CommonJS",
