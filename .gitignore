@@ -165,4 +165,11 @@ dist
 # Ignore all local history of files
 .history
 
+### Intellij ###
+.idea
+
+### SWF folders
+in
+out
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,node,visualstudiocode,git
