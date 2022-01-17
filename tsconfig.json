@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "es5",
     "isolatedModules": true,
     "allowJs": false,
+    "sourceMap": true,
+    "removeComments": false,
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": false,
@@ -11,10 +13,21 @@
     "strictNullChecks": false,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "baseUrl": "src",
-    "module": "ES2020",
+    "lib": ["es2015","DOM"],
+    "module": "CommonJS",
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["src/*"],
+      "mini-signals": [
+        "node_modules/resource-loader/typings/mini-signals.d.ts"
+      ]
     },
     "outDir": "./dist",
     "declaration": true
