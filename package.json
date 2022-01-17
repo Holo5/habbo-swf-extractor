@@ -2,6 +2,12 @@
   "name": "habbo-swf-extractor",
   "version": "1.0.0",
   "description": "A small command-line utility tool for extracting Habbo *.swf files.",
+  "scripts": {
+    "start:dev": "yarn ts-node-dev --respawn src/index.ts",
+    "start:prod": "node dist/index.js --in ./in/ --out ./out/",
+    "lint": "eslint --ext .js,.ts ./src --color --fix",
+    "build": "tsc"
+  },
   "keywords": [
     "habbo-swf-extractor",
     "habbo-swf-extract",
@@ -34,12 +40,6 @@
     "habbo-swf-extractor": "dist/index.js",
     "swf-extract": "dist/index.js",
     "hse": "dist/index.js"
-  },
-  "scripts": {
-    "start:dev": "yarn ts-node-dev --respawn src/index.ts",
-    "start:prod": "node dist/index.js --in ./in/ --out ./out/",
-    "lint": "eslint --ext .js,.ts ./src --color --fix",
-    "build": "tsc"
   },
   "repository": {
     "type": "git",
