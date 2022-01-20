@@ -1,3 +1,5 @@
+import ArrayBufferView = NodeJS.ArrayBufferView;
+
 export class Binary {
     public constructor(
         private _id: number,
@@ -11,5 +13,9 @@ export class Binary {
 
     get data(): ArrayBufferView {
         return this._data;
+    }
+
+    static fromTag(tag: any) {
+        return new Binary(tag.data.readUInt16LE(), tag.data.slice(6));
     }
 }
