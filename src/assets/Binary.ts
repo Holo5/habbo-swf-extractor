@@ -1,5 +1,5 @@
 export class Binary {
-    constructor(
+    public constructor(
         private _id: number,
         private _data: ArrayBufferView,
     ) {
