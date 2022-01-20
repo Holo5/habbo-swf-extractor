@@ -4,19 +4,23 @@ import * as fs from 'fs';
 import { HeaderEnum } from './enums/HeaderEnum';
 import Jimp from 'jimp';
 import zlib from 'zlib';
+import ArrayBufferView = NodeJS.ArrayBufferView;
 
 export class HabboSwfExtractor {
     public static async dumpAsset(assetName: string, inputDir: string, outputDir: string): Promise<void> {
         await fs.promises.mkdir(`${outputDir}/${assetName}`, { recursive: true });
 
         const swf = SWFReader.readSync(
-            await fs.promises.readFile(`${inputDir}/${assetName}.swf`),
+            fs.readFileSync(`${inputDir}/${assetName}.swf`),
         );
 
         const map = swf.tags.find((tag: any) => tag.header.code === HeaderEnum.SYMBOL).symbols.map((symbol: any) => {
             symbol.name = symbol.name.substr(assetName.length + 1);
             return symbol;
         });
+
+        const images: Record<number, Jimp> = {};
+        const binaries: Record<number, ArrayBufferView> = {};
 
         for (const tag of swf.tags) {
             // binary
@@ -25,7 +29,9 @@ export class HabboSwfExtractor {
 
                 if (!symbol) continue;
 
-                await fs.promises.writeFile(`${outputDir}/${assetName}/${symbol.name}.xml`, tag.data.slice(6));
+                binaries[tag.data.readUInt16LE()] = tag.data.slice(6);
+
+                // fs.writeFileSync(`${outputDir}/${assetName}/${symbol.name}.xml`, tag.data.slice(6));
             }
 
             if (tag.header.code === HeaderEnum.IMAGE) {
@@ -49,7 +55,18 @@ export class HabboSwfExtractor {
                     }
                 }
 
-                await image.writeAsync(`${outputDir}/${assetName}/${symbol.name}.png`);
+                images[tag.characterId] = image;
+                // await image.writeAsync(`${outputDir}/${assetName}/${symbol.name}.png`);
+            }
+        }
+
+        for (const elm of map) {
+            if (images[elm.id] !== undefined) {
+                await images[elm.id].write(`${outputDir}/${assetName}/${elm.name}.png`);
+            }
+
+            if (binaries[elm.id] !== undefined) {
+                await fs.writeFileSync(`${outputDir}/${assetName}/${elm.name}.xml`, binaries[elm.id]);
             }
         }
     }
